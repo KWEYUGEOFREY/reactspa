@@ -2,6 +2,17 @@ import { useState } from 'react';
 
 // Define the Statistics component outside the App component
 const Statistics = ({ good, neutral, bad, total, average, positivePercentage }) => {
+  //check if there is any feedback.
+  if(total===0)
+  {
+    return(
+      <div>
+        <h1>Statistics</h1>
+        <p>No feedback yet</p>
+      </div>
+    )
+  }
+   // If feedback exists, display the statistics
   // Return JSX for displaying statistics
   return (
     <div>
@@ -9,7 +20,7 @@ const Statistics = ({ good, neutral, bad, total, average, positivePercentage }) 
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
       <p>Bad: {bad}</p>
-      <p>Total : {total}</p>
+      <p>All : {total}</p>
       <p>Average : {average.toFixed(2)}</p>
       <p>Positive : {positivePercentage.toFixed(2)}%</p>
     </div>
