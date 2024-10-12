@@ -1,12 +1,35 @@
-import {useState} from 'react'
+import { useState } from 'react';
+
+// Define the Statistics component outside the App component
+const Statistics = ({ good, neutral, bad, total, average, positivePercentage }) => {
+  // Return JSX for displaying statistics
+  return (
+    <div>
+      <h1>Statistics</h1>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>Total : {total}</p>
+      <p>Average : {average.toFixed(2)}</p>
+      <p>Positive : {positivePercentage.toFixed(2)}%</p>
+    </div>
+  )
+}
 
 const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
- 
+  // Save clicks of each button to its own state
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
+  // Calculate total feedback
+  const total = good + neutral + bad;
+
+  // Calculate the average score: good = +1, neutral = 0, bad = -1
+  const average = (good - bad) / total || 0;
+
+  // Calculate the percentage of positive feedback
+  const positivePercentage = (good / total) * 100 || 0;
 
   return (
     <div>
@@ -15,13 +38,15 @@ const App = () => {
       <button onClick={() => setNeutral(neutral + 1)}>Neutral</button>
       <button onClick={() => setBad(bad + 1)}>Bad</button>
 
-      <h1>Statistics</h1>
-      <p>good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
-      <p>All: {good + neutral + bad}</p>
-      <p>Average: {(good - bad) / (good + neutral + bad)|| 0}%</p>
-      <p>Positive: {(good / (good + neutral + bad)) * 100 || 0}%</p>
+      {/* Pass the calculated values as props to the Statistics component */}
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        total={total}
+        average={average}
+        positivePercentage={positivePercentage}
+      />
     </div>
   )
 }
