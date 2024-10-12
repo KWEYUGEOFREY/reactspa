@@ -8,7 +8,10 @@ const Button = ({onClick, text}) => {
 
  const StatisticLine  = ({text, value})=>{
   return(
-    <p>{text} : {value}</p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
  }
 // Define the Statistics component outside the App component
@@ -28,12 +31,16 @@ const Statistics = ({ good, neutral, bad, total, average, positivePercentage }) 
   return (
     <div>
       <h1>Statistics</h1>
-      <StatisticLine text="Good" value={good} />
-      <StatisticLine text="Neutral" value={neutral} />
-      <StatisticLine text="Bad" value={bad} />
-      <StatisticLine text="Total feedback" value={total} />
-      <StatisticLine text="Average score" value={average.toFixed(1)} />
-      <StatisticLine text="Positive feedback" value={`${positivePercentage.toFixed(1)}%`}/>
+      <table>
+        <tbody>
+          <StatisticLine text="Good              :" value={good} />
+          <StatisticLine text="Neutral           :" value={neutral} />
+          <StatisticLine text="Bad               :" value={bad} />
+          <StatisticLine text="Total feedback    :" value={total} />
+          <StatisticLine text="Average score     :" value={average.toFixed(1)} />
+          <StatisticLine text="Positive feedback :" value={`${positivePercentage.toFixed(1)}%`}/>
+        </tbody>
+      </table>
     </div>
   )
 }
@@ -59,7 +66,7 @@ const App = () => {
       <Button onClick={() => setGood(good + 1)} text="Good" />
       <Button onClick={() => setNeutral(neutral + 1)} text="Neutral" />
       <Button onClick={() => setBad(bad + 1)} text="Bad" />
-   
+
       <Statistics
         good={good}
         neutral={neutral}
