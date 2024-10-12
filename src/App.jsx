@@ -92,20 +92,39 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
    
-  const [selected, setSelected] = useState(0)
+  
+  const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0)); // Initializing an array to hold the votes
 
   // Function to select a random anecdote
   const handleRandomAnecdote = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length);
     setSelected(randomIndex);
-  }
+  };
+
+  // Function to vote for the current anecdote
+  const handleVote = () => {
+    const votesCopy = [...votes]; // Create a copy of the votes array
+    votesCopy[selected] += 1; // Increment the vote for the current anecdote
+    setVotes(votesCopy); // Update the votes state
+  };
 
   return (
-      <div>
-        <h1>Anecdote of the day</h1>
-        <p>{anecdotes[selected]}</p>
-        <button onClick={handleRandomAnecdote}>Next Anecdote</button>
-      </div>
-  )
+    <div>
+      <h1>Anecdote of the day</h1>
+      <p>{anecdotes[selected]}</p>
+      <p>Has {votes[selected]} votes</p>
+      
+      {/* Vote button next to the Next Anecdote button */}
+      <button onClick={handleVote}>Vote</button>
+      <button onClick={handleRandomAnecdote}>Next Anecdote</button>
+
+      <h2>Anecdote with the most votes</h2>
+      <p>{anecdotes[votes.indexOf(Math.max(...votes))]}</p>
+      <p>Has {Math.max(...votes)} votes</p>
+    </div>
+  );
 }
+
+
 export default App
