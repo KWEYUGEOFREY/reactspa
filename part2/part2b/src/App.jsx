@@ -10,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [showAll, setShowAll] = useState(true)
 
 
   const addPerson = (event)=>{
@@ -41,19 +42,25 @@ const App = () => {
       }
   
       const handleFilterChange = (event) => {
-        setFilter(event.target.value);
-      };
+        setFilter(event.target.value)
+      }
     
     // Filter persons based on search term (case insensitive)
-    const personsToShow = persons.filter(person =>
+    const filteredPersons = persons.filter(person =>
       person.name.toLowerCase().includes(filter.toLowerCase())
     )
+    // Conditionally show all persons or filtered ones
+  const personsToShow = showAll ? persons : filteredPersons
+
   return (
     <div>
       <h2>Phonebook</h2>
 
       <div>
         filter shown with: <input value={filter} onChange={handleFilterChange} />
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? 'filtered' : 'all'}
+        </button>
       </div>
       <h2>Add new contact</h2>
       <form onSubmit={addPerson}>
@@ -72,7 +79,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-      {persons.map((person, i) => 
+      {personsToShow.map((person, i) => 
           <li key ={i}>
             {person.name} {person.number}
           </li>
