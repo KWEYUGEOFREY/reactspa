@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons.jsx';
+import Footer from './components/Footer.jsx';
 import axios from 'axios';
 
 const App = () => {
@@ -20,21 +21,24 @@ const App = () => {
   }, [])
   
 
-
   const addPerson = (event) => {
     event.preventDefault();
     if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
+      alert(`${newName} is already added to the phonebook`);
     } else {
-      const personsObject = {
+      const newPerson = {
         name: newName,
         number: newNumber
-      };
-      setPersons(persons.concat(personsObject));
-      setNewName('');
-      setNewNumber('');
+      }
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        });
     }
-  };
+  }
 
   const handleNameChange = (event) => setNewName(event.target.value);
   const handleNumberChange = (event) => setNewNumber(event.target.value);
@@ -68,6 +72,7 @@ const App = () => {
       <h3>Numbers</h3>
 
       <Persons personsToShow={personsToShow} />
+      <Footer/>
     </div>
   )
 }
