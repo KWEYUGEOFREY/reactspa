@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import Filter from './components/Filter';
-import PersonForm from './components/PersonForm';
-import Persons from './components/Persons.jsx';
-import Footer from './components/Footer.jsx';
-import axios from 'axios';
+import { useState, useEffect } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons.jsx'
+import Footer from './components/Footer.jsx'
+import personService from './services/PersonService.js'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -13,10 +13,10 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
 
   useEffect(() => {
-      axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
   
@@ -30,12 +30,26 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      axios
-        .post('http://localhost:3001/persons', newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson));
           setNewName('')
           setNewNumber('')
+        })
+    }
+  }
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personService
+        .deletePerson(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          alert(`The entry for ${name} was already removed from the server.`)
+          setPersons(persons.filter(person => person.id !== id))
         });
     }
   }
@@ -67,11 +81,12 @@ const App = () => {
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
         addPerson={addPerson}
+
       />
 
       <h3>Numbers</h3>
 
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow}  onDelete={handleDelete}/>
       <Footer/>
     </div>
   )
