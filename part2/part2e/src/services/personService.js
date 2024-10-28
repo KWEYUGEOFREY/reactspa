@@ -13,5 +13,10 @@ const create = (newPerson) => {
 const deletePerson = (id) => {
     return axios.delete(`${baseUrl}/${id}`)
   }
+
+const update = (id, updatedPerson) => {
+    return axios.put(`${baseUrl}/${id}`, updatedPerson).then(response => response.data)
+  }
+  
 // Export the functions to be used in App.js
-export default { getAll, create, deletePerson }
+export default { getAll, create, deletePerson, update }

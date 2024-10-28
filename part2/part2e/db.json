@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": "2"
@@ -28,12 +23,17 @@
     {
       "id": "79c8",
       "name": "Peter Mbugua",
-      "number": "0987736737"
+      "number": "0942232333"
     },
     {
       "id": "422e",
       "name": "Jeff Carter",
       "number": "0942232333"
+    },
+    {
+      "id": "a58c",
+      "name": "Arto Hellas ",
+      "number": "040-123456"
     }
   ]
 }
